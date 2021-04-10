@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.controller">
+   <children>
+      <Label layoutX="115.0" layoutY="34.0" prefHeight="35.0" prefWidth="381.0" text="Travel Experts Database manager">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnGO" layoutX="124.0" layoutY="259.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="176.0" text="Go to selected table" />
+      <ComboBox fx:id="cbTables" layoutX="160.0" layoutY="137.0" prefHeight="42.0" prefWidth="197.0" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <VBox layoutY="63.0" prefHeight="230.0" prefWidth="287.0">
+         <children>
+            <Label text="Customer ID" />
+            <Label text="First Name" />
+            <Label text="Last Name" />
+            <Label text="Address" />
+            <Label text="City" />
+            <Label text="Province" />
+            <Label text="Postal Code" />
+            <Label text="Country" />
+            <Label text="Home Phone" />
+            <Label text="Business Phone" />
+            <Label text="Email" />
+            <Label text="Agent ID" />
+         </children>
+      </VBox>
+      <VBox layoutX="306.0" layoutY="69.0" prefHeight="330.0" prefWidth="296.0">
+         <children>
+            <TextField fx:id="txtCustomerId" disable="true" />
+            <TextField fx:id="txtCustFirstName" disable="true" />
+            <TextField fx:id="txtCustLastName" disable="true" />
+            <TextField fx:id="txtCustAddress" disable="true" />
+            <TextField fx:id="txtCustCity" disable="true" />
+            <TextField fx:id="txtCustProv" disable="true" />
+            <TextField fx:id="txtCustPostal" disable="true" />
+            <TextField fx:id="txtCustCountry" disable="true" />
+            <TextField fx:id="txtCustHomePhone" disable="true" />
+            <TextField fx:id="txtCustBusPhone" disable="true" />
+            <TextField fx:id="txtCustEmail" disable="true" />
+            <TextField fx:id="txtCustAgentId" disable="true" />
+         </children>
+      </VBox>
+      <Button fx:id="btnCustEdit" disable="true" layoutX="21.0" layoutY="332.0" mnemonicParsing="false" text="Edit" />
+      <Button fx:id="btnCustSave" disable="true" layoutX="92.0" layoutY="332.0" mnemonicParsing="false" text="Save" />
+      <Button fx:id="btnCustClose" layoutX="162.0" layoutY="332.0" mnemonicParsing="false" text="Close" />
+      <ComboBox fx:id="cboCustomer" layoutX="48.0" layoutY="21.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>

@@ -150,6 +150,8 @@ public class ControllerAgent {
                 txtAgencyId.setDisable(true);
                 btnAgtEdit.setDisable(false);
                 btnAgtSave.setDisable(true);
+                btnAddAgent.setDisable(true);
+                btnAgtDelete.setDisable(true);
             }
         });
 

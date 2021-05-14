@@ -246,10 +246,6 @@ public class ControllerAgent {
                             + "AgtPosition, AgencyId)"
                             + " VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-
-
-                    Connection conn = getConnection();
-
                     try {
                         PreparedStatement stmt = conn.prepareStatement(sql);
                         stmt.setString(1, txtAgtFirstName.getText());

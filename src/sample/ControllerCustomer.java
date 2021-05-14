@@ -154,10 +154,20 @@ public class ControllerCustomer {
                 txtCustEmail.setText(t1.getCustEmail());
                 txtCustAgentId.setText(t1.getCustAgentId() + "");
 
-                // Enables the edit button when a selection is made -Katrina
+                //enable edit/ disable other btn's and boxes -Jack
+                txtCustFirstName.setDisable(true);
+                txtCustLastName.setDisable(true);
+                txtCustAddress.setDisable(true);
+                txtCustCity.setDisable(true);
+                txtCustProv.setDisable(true);
+                txtCustPostal.setDisable(true);
+                txtCustCountry.setDisable(true);
+                txtCustHomePhone.setDisable(true);
+                txtCustBusPhone.setDisable(true);
+                txtCustEmail.setDisable(true);
+                txtCustAgentId.setDisable(true);
                 btnCustEdit.setDisable(false);
-
-                //resets new and delete buttons to be off -Jack
+                btnCustSave.setDisable(true);
                 btnAddCustomer.setDisable(true);
                 btnDeleteCustomer.setDisable(true);
             }

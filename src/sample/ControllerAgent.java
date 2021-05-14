@@ -140,8 +140,16 @@ public class ControllerAgent {
                 txtAgtPosition.setText(t1.getAgtPosition());
                 txtAgencyId.setText(t1.getAgencyId() + "");
 
-                // Enables the edit button when a selection is made -Katrina
+                //enable edit/ disable other btn's and boxes
+                txtAgtFirstName.setDisable(true);
+                txtAgtMiddleInitial.setDisable(true);
+                txtAgtLastName.setDisable(true);
+                txtAgtBusPhone.setDisable(true);
+                txtAgtEmail.setDisable(true);
+                txtAgtPosition.setDisable(true);
+                txtAgencyId.setDisable(true);
                 btnAgtEdit.setDisable(false);
+                btnAgtSave.setDisable(true);
             }
         });
 

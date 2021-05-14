@@ -85,6 +85,29 @@ public class ControllerAgent {
         return conn;
     }
 
+    Connection conn = getConnection();
+
+    void getAgents() {
+        try {
+            Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery("select * from agents");
+            ObservableList<Agent> list = FXCollections.observableArrayList();
+            while (rs.next()) {
+                list.add(new Agent(rs.getInt("AgentId"),
+                        rs.getString("AgtFirstName"),
+                        rs.getString("AgtMiddleInitial"),
+                        rs.getString("AgtLastName"),
+                        rs.getString("AgtBusPhone"),
+                        rs.getString("AgtEmail"),
+                        rs.getString("AgtPosition"),
+                        rs.getInt("AgencyId")));
+            }
+            cboAgent.setItems(list);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert txtAgentId != null : "fx:id=\"txtAgentId\" was not injected: check your FXML file 'agent.fxml'.";
@@ -102,27 +125,7 @@ public class ControllerAgent {
         assert btnAddAgent != null : "fx:id=\"btnAddAgent\" was not injected: check your FXML file 'agent.fxml'.";
         assert btnAgtDelete != null : "fx:id=\"btnAgtDelete\" was not injected: check your FXML file 'agent.fxml'.";
 
-        // Connection to agents table -Katrina
-        try {
-            Connection conn = getConnection();
-            Statement stat = conn.createStatement();
-            ResultSet rs = stat.executeQuery("select * from agents");
-            ObservableList<Agent> list = FXCollections.observableArrayList();
-            while (rs.next()) {
-                list.add(new Agent(rs.getInt("AgentId"),
-                        rs.getString("AgtFirstName"),
-                        rs.getString("AgtMiddleInitial"),
-                        rs.getString("AgtLastName"),
-                        rs.getString("AgtBusPhone"),
-                        rs.getString("AgtEmail"),
-                        rs.getString("AgtPosition"),
-                        rs.getInt("AgencyId")));
-            }
-            cboAgent.setItems(list);
-            conn.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        getAgents();
 
         // Selection of Agent ID from the combobox will generate the agent's record in the text fields -Katrina
         cboAgent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Agent>() {
@@ -211,11 +214,12 @@ public class ControllerAgent {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
+                    conn.close();
                     Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
                     Stage window = (Stage) btnAgtClose.getScene().getWindow();
                     window.setTitle("Database manager home page");
                     window.setScene(new Scene(root));
-                } catch (IOException e) {
+                } catch (IOException | SQLException e) {
                     e.printStackTrace();
                 }
             }
@@ -259,6 +263,7 @@ public class ControllerAgent {
                             txtAgencyId.setDisable(true);
                             btnAgtEdit.setDisable(false);
                             btnAgtSave.setDisable(true);
+                            getAgents();
                         } else {
                             System.out.print("update failed\n");
                         }
@@ -299,6 +304,7 @@ public class ControllerAgent {
                             btnAgtEdit.setDisable(true);
                             btnAgtSave.setDisable(true);
                             btnAgtDelete.setDisable(true);
+                            getAgents();
                         } else {
                             System.out.print("update failed\n");
                         }

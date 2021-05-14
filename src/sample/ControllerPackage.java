@@ -71,6 +71,29 @@ public class ControllerPackage {
     @FXML
     private Button btnAddPackage;
 
+    Connection conn = getConnection();
+
+    //Turned Katrina's code into a method for re-use -Jack
+    void getPackages() {
+        try {
+            Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery("select * from packages");
+            ObservableList<Package> list = FXCollections.observableArrayList();
+            while (rs.next()) {
+                list.add(new Package(rs.getInt("PackageId"),
+                        rs.getString("PkgName"),
+                        rs.getDate("PkgStartDate"),
+                        rs.getDate("PkgEndDate"),
+                        rs.getString("PkgDesc"),
+                        rs.getBigDecimal("PkgBasePrice"),
+                        rs.getBigDecimal("PkgAgencyCommission")));
+            }
+            cboPackage.setItems(list);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert txtPackageId != null : "fx:id=\"txtPackageId\" was not injected: check your FXML file 'package.fxml'.";
@@ -86,26 +109,8 @@ public class ControllerPackage {
         assert btnPkgClose != null : "fx:id=\"btnPkgClose\" was not injected: check your FXML file 'package.fxml'.";
         assert btnDeletePackage != null : "fx:id=\"btnDeletePackage\" was not injected: check your FXML file 'package.fxml'.";
         assert btnAddPackage != null : "fx:id=\"btnAddPackage\" was not injected: check your FXML file 'package.fxml'.";
-        // Connection to packages table -Katrina
-        try {
-            Connection conn = getConnection();
-            Statement stat = conn.createStatement();
-            ResultSet rs = stat.executeQuery("select * from packages");
-            ObservableList<Package> list = FXCollections.observableArrayList();
-            while (rs.next()) {
-                list.add(new Package(rs.getInt("PackageId"),
-                        rs.getString("PkgName"),
-                        rs.getDate("PkgStartDate"),
-                        rs.getDate("PkgEndDate"),
-                        rs.getString("PkgDesc"),
-                        rs.getBigDecimal("PkgBasePrice"),
-                        rs.getBigDecimal("PkgAgencyCommission")));
-            }
-            cboPackage.setItems(list);
-            conn.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+
+        getPackages();
 
         // Selection of Package ID from the combobox will generate the package's record in the text fields -Katrina
         cboPackage.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Package>() {
@@ -119,8 +124,17 @@ public class ControllerPackage {
                 txtPkgBasePrice.setText(t1.getPkgBasePrice() + "");
                 txtPkgAgencyCommission.setText(t1.getPkgAgencyCommission() + "");
 
-                // Enables the edit button when a selection is made -Katrina
+                // Enable edit / Disable btn's and textboxes -Jack
+                txtPkgName.setDisable(true);
+                txtPkgStartDate.setDisable(true);
+                txtPkgEndDate.setDisable(true);
+                txtPkgDesc.setDisable(true);
+                txtPkgBasePrice.setDisable(true);
+                txtPkgAgencyCommission.setDisable(true);
                 btnPkgEdit.setDisable(false);
+                btnPkgSave.setDisable(true);
+                btnAddPackage.setDisable(true);
+                btnDeletePackage.setDisable(true);
             }
         });
 
@@ -192,11 +206,12 @@ public class ControllerPackage {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
+                    conn.close();
                     Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
                     Stage window = (Stage) btnPkgClose.getScene().getWindow();
                     window.setTitle("Database manager home page");
                     window.setScene(new Scene(root));
-                } catch (IOException e) {
+                } catch (IOException | SQLException e) {
                     e.printStackTrace();
                 }
             }
@@ -240,6 +255,7 @@ public class ControllerPackage {
                             btnPkgEdit.setDisable(false);
                             btnPkgSave.setDisable(true);
                             btnDeletePackage.setDisable(true);
+                            getPackages();
                         } else {
                             System.out.println("update failed");
                         }
@@ -280,6 +296,7 @@ public class ControllerPackage {
                             btnPkgEdit.setDisable(true);
                             btnPkgSave.setDisable(true);
                             btnDeletePackage.setDisable(true);
+                            getPackages();
                         } else {
                             System.out.println("update failed");
                         }

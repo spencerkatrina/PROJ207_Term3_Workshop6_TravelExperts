@@ -86,6 +86,33 @@ public class ControllerCustomer {
     @FXML // fx:id="btnAddCustomer"
     private Button btnAddCustomer; // Value injected by FXMLLoader
 
+    Connection conn = getConnection();
+
+    //Made Katrina's code into method for use -Jack
+    void getCustomers() {
+        try {
+            Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery("select * from customers");
+            ObservableList<Customer> list = FXCollections.observableArrayList();
+            while (rs.next()) {
+                list.add(new Customer(rs.getInt("CustomerId"),
+                        rs.getString("CustFirstName"),
+                        rs.getString("CustLastName"),
+                        rs.getString("CustAddress"),
+                        rs.getString("CustCity"),
+                        rs.getString("CustProv"),
+                        rs.getString("CustPostal"),
+                        rs.getString("CustCountry"),
+                        rs.getString("CustHomePhone"),
+                        rs.getString("CustBusPhone"),
+                        rs.getString("CustEmail"),
+                        rs.getInt("AgentId")));
+            }
+            cboCustomer.setItems(list);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -107,31 +134,8 @@ public class ControllerCustomer {
         assert btnDeleteCustomer != null : "fx:id=\"btnDeleteCustomer\" was not injected: check your FXML file 'customer.fxml'.";
         assert btnAddCustomer != null : "fx:id=\"btnAddCustomer\" was not injected: check your FXML file 'customer.fxml'.";
         assert cboCustomer != null : "fx:id=\"cboCustomer\" was not injected: check your FXML file 'customer.fxml'.";
-        try {
-            Connection conn = getConnection();
-            Statement stat = conn.createStatement();
-            ResultSet rs = stat.executeQuery("select * from customers");
-            ObservableList<Customer> list = FXCollections.observableArrayList();
-            while (rs.next()) {
-                list.add(new Customer(rs.getInt("CustomerId"),
-                        rs.getString("CustFirstName"),
-                        rs.getString("CustLastName"),
-                        rs.getString("CustAddress"),
-                        rs.getString("CustCity"),
-                        rs.getString("CustProv"),
-                        rs.getString("CustPostal"),
-                        rs.getString("CustCountry"),
-                        rs.getString("CustHomePhone"),
-                        rs.getString("CustBusPhone"),
-                        rs.getString("CustEmail"),
-                        rs.getInt("AgentId")));
-            }
-            cboCustomer.setItems(list);
 
-            conn.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        getCustomers();
 
         // Selection of Customer ID from the combobox will generate the customer's record in the text fields -Katrina
         cboCustomer.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Customer>() {
@@ -242,11 +246,12 @@ public class ControllerCustomer {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
+                    conn.close();
                     Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
                     Stage window = (Stage) btnCustClose.getScene().getWindow();
                     window.setTitle("Database manager home page");
                     window.setScene(new Scene(root));
-                } catch (IOException e) {
+                } catch (IOException | SQLException e) {
                     e.printStackTrace();
                 }
             }
@@ -300,6 +305,7 @@ public class ControllerCustomer {
                             btnCustEdit.setDisable(false);
                             btnCustSave.setDisable(true);
                             btnDeleteCustomer.setDisable(true);
+                            getCustomers();
                         } else {
                             System.out.println("update failed");
                         }
@@ -344,6 +350,7 @@ public class ControllerCustomer {
                             btnCustEdit.setDisable(false);
                             btnCustSave.setDisable(true);
                             btnDeleteCustomer.setDisable(true);
+                            getCustomers();
                         } else {
                             System.out.print("update failed\n");
                         }

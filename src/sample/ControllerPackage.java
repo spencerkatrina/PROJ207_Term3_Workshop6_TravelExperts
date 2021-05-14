@@ -252,7 +252,7 @@ public class ControllerPackage {
                             txtPkgEndDate.setDisable(true);
                             txtPkgAgencyCommission.setDisable(true);
                             txtPkgBasePrice.setDisable(true);
-                            btnPkgEdit.setDisable(false);
+                            btnPkgEdit.setDisable(true);
                             btnPkgSave.setDisable(true);
                             btnDeletePackage.setDisable(true);
                             getPackages();

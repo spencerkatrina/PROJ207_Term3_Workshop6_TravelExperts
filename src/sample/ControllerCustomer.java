@@ -357,7 +357,7 @@ public class ControllerCustomer {
                             txtCustBusPhone.setDisable(true);
                             txtCustEmail.setDisable(true);
                             txtCustAgentId.setDisable(true);
-                            btnCustEdit.setDisable(false);
+                            btnCustEdit.setDisable(true);
                             btnCustSave.setDisable(true);
                             btnDeleteCustomer.setDisable(true);
                             getCustomers();

@@ -267,8 +267,9 @@ public class ControllerAgent {
                             txtAgtEmail.setDisable(true);
                             txtAgtPosition.setDisable(true);
                             txtAgencyId.setDisable(true);
-                            btnAgtEdit.setDisable(false);
                             btnAgtSave.setDisable(true);
+                            btnAgtDelete.setDisable(true);
+                            btnAgtEdit.setDisable(true);
                             getAgents();
                         } else {
                             System.out.print("update failed\n");
